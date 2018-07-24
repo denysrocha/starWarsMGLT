@@ -3,8 +3,9 @@ export default {
   data () {
     return {
       distance: 0,
-      starships: {},
-      results: []
+      starships: [],
+      results: [],
+      starship_selected: null
     }
   },
   methods: {
@@ -16,13 +17,12 @@ export default {
   		})
     },
     calculateStops () {
+      console.log('entrou')
       this.results = []
       for (var i = 0; i < this.starships.length; i++) {
-        this.results.push({
-          name: this.starships[i].name,
-          MGLT: this.starships[i].MGLT,
-          stops: this.returnStops(this.distance, this.starships[i].MGLT, this.starships[i].consumables)
-        })
+        this.starships[i].stops = this.returnStops(this.distance, this.starships[i].MGLT, this.starships[i].consumables)
+        this.starships[i].img = require('../../assets/img/' + this.starships[i].name + '.png')
+        this.results.push(this.starships[i])
       }
     },
     returnStops (distance, mglt, time) {

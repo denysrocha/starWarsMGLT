@@ -20,7 +20,7 @@ export default {
 }
 body {
   background-image: url('http://longwallpapers.com/Desktop-Wallpaper/star-wars-wallpaper-widescreen-For-Desktop-Wallpaper.jpg');
-  background-size: 100%;
+  background-size: cover;
   background-repeat: no-repeat;
 }
 </style>
