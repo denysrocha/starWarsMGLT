@@ -13,6 +13,7 @@ npm run dev
 
 # build for production with minification
 npm run build
+# copy the content generated (index.html and static folder) in the dist folder to your web server
 
 # build for production and view the bundle analyzer report
 npm run build --report
