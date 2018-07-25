@@ -20,19 +20,20 @@
       <transition name="component-fade" mode="out-in">
         <div class="row" v-if="starship_selected == null">
           <!-- <transition-group name="list" tag="div"> -->
-            <div class="col-md-6" v-for="r in results" v-bind:key="r.name">
+            <div class="col-md-6 results-item" v-for="r in results" v-bind:key="r.name">
               <div class="row">
                 <div class="col-md-4">
-                  <div class="starship-box" v-on:click="starship_selected = r">
-            				<img :src="r.img" alt="" class="starship-img" name="starship-img">
+                  <div class="starship-box">
+            			<img :src="r.img" alt="" class="starship-img" name="starship-img">
                   </div>
                 </div>
                 <div class="col-md-7">
                   <label for="starship-img">Starship {{ r.name }}</label>
                   <p>Stops {{ r.stops }}</p>
+                  <button class="btn btn-info btn-sm" v-on:click="selectStarship(r)">+ Details</button>
                 </div>
               </div>
-        		</div>
+        	</div>
           <!-- </transition-group> -->
     	  </div>
       </transition>
@@ -65,6 +66,15 @@
               <p>Starship class: {{ starship_selected.starship_class }}</p>
             </div>
           </div>
+          <div class="row">
+          	<div class="col-md-3" v-for="pilot in starship_selected.pilots_data">
+          		<div class="starship-box">
+          			
+            		<img :src="pilot.img" alt="" class="starship-img" name="starship-img">
+          			
+                </div>
+          	</div>
+          </div>
         </div>
       </transition>
     </div>
@@ -78,6 +88,16 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+@import url('https://fonts.googleapis.com/css?family=Share+Tech+Mono');
+
+.results-item{
+	padding: 10px;
+}
+
+.results-item:hover{
+	background-color: rgba(255,255,255,0.1);
+}
 
 hr {
   border-top: 1px solid rgba(255,255,255,0.4);
@@ -133,6 +153,7 @@ hr {
 .results {
   max-height: 600px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .starship-box{
@@ -144,7 +165,6 @@ hr {
   border-radius: 100%;
   margin-bottom: 20px;
   transition: 0.2s ease;
-  cursor: pointer;
   border: 2px solid rgba(255,255,255,0.5);
 }
 
@@ -171,13 +191,16 @@ hr {
 
 .container{
 	max-width: 1000px;
-  min-height: 600px;
+  	min-height: 700px;
 }
 
 .well{
 	background-color: rgba(0, 0, 0, 0.4);
 	box-shadow: 0px 3px 10px rgba(255, 255, 255, 0.7);
-  color: yellow;
+  	color: yellow;
+  	overflow-y: auto;
+  	overflow-x: hidden;
+	font-family: 'Share Tech Mono', monospace;
 }
 
 </style>
