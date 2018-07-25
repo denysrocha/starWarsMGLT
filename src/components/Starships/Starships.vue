@@ -3,7 +3,7 @@
     <center><img src="../../assets/img/star_wars_logo.png" alt="" height="100px;" id="logo"></center>
   	<div class="row">
   		<div class="col-md-12">
-  			<h4 for="distance">Inform the distance to be traveled</h4>
+  			<h4 for="distance">Inform the distance to be traveled by each starship</h4>
   		</div>
   	</div>
 
@@ -18,13 +18,13 @@
   	<hr>
     <div class="container results">
       <transition name="component-fade" mode="out-in">
-        <div class="row" v-if="starship_selected == null">
+        <div class="row" v-if="starship_selected == null && pilot_selected == null && homeworld == null">
           <!-- <transition-group name="list" tag="div"> -->
             <div class="col-md-6 results-item" v-for="r in results" v-bind:key="r.name">
               <div class="row">
                 <div class="col-md-4">
-                  <div class="starship-box">
-            			<img :src="r.img" alt="" class="starship-img" name="starship-img">
+                  <div class="box">
+            			<img :src="r.img" alt="" class="img" name="starship-img">
                   </div>
                 </div>
                 <div class="col-md-7">
@@ -38,14 +38,14 @@
     	  </div>
       </transition>
       <transition name="component-fade" mode="out-in">
-        <div v-if="starship_selected != null">
+        <div v-if="starship_selected != null && pilot_selected == null && homeworld == null">
           <button type="button" name="button" class="btn btn-info" v-on:click="starship_selected = null">
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
           </button>
           <div class="row">
             <div class="col-md-6">
-              <div class="starship-box-selected">
-                <img :src="starship_selected.img" alt="" class="starship-img-selected" name="starship-img">
+              <div class="box-selected">
+                <img :src="starship_selected.img" alt="" class="img-selected" name="starship-img">
               </div>
             </div>
             <div class="col-md-4">
@@ -67,13 +67,64 @@
             </div>
           </div>
           <div class="row">
-          	<div class="col-md-3" v-for="pilot in starship_selected.pilots_data">
-          		<div class="starship-box">
-          			
-            		<img :src="pilot.img" alt="" class="starship-img" name="starship-img">
-          			
-                </div>
+          	<div class="col-md-3 pilots" v-for="pilot in pilots">
+          		<div class="box box-pilots">
+            		<img :src="pilot.img" alt="" class="img img-pilots" name="pilot-img">
+              </div>
+              <button type="button" class="btn btn-sm btn-info btn-pilot" v-on:click="pilot_selected = pilot">{{ pilot.name }}</button>
           	</div>
+          </div>
+        </div>
+      </transition>
+      <transition name="component-fade" mode="out-in">
+        <div class="" v-if="pilot_selected != null && homeworld == null">
+          <button type="button" name="button" class="btn btn-info" v-on:click="pilot_selected = null">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          </button>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="box-selected">
+                <img :src="pilot_selected.img" alt="" class="img-selected" name="starship-img">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <h3>Pilot: {{ pilot_selected.name }}</h3>
+              <hr>
+              <p>Height: {{ pilot_selected.height }}</p>
+              <p>Mass: {{ pilot_selected.mass }}</p>
+              <p>Hair_color: {{ pilot_selected.hair_color }}</p>
+              <p>Skin_color: {{ pilot_selected.skin_color }}</p>
+              <p>Eye color: {{ pilot_selected.eye_color }}</p>
+              <p>Birth year: {{ pilot_selected.birth_year }}</p>
+              <p>Gender: {{ pilot_selected.gender }}</p>
+              <button type="button" class="btn btn-sm btn-info" v-on:click="selectHomeWorld(pilot_selected)">Homeworld</button>
+            </div>
+          </div>
+        </div>
+      </transition>
+      <transition name="component-fade" mode="out-in">
+        <div class="" v-if="homeworld != null">
+          <button type="button" name="button" class="btn btn-info" v-on:click="homeworld = null">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          </button>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="box-selected">
+                <img :src="homeworld.img" alt="" class="img-selected" name="starship-img">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <h3>Homeworld: {{ homeworld.name }}</h3>
+              <hr>
+              <p>Rotation period: {{ homeworld.rotation_period }}</p>
+              <p>Orbital period: {{ homeworld.orbital_period }}</p>
+              <p>Diameter: {{ homeworld.diameter }}</p>
+              <p>Climate: {{ homeworld.climate }}</p>
+              <p>Gravity: {{ homeworld.gravity }}</p>
+              <p>Terrain: {{ homeworld.terrain }}</p>
+              <p>Surface water: {{ homeworld.surface_water }}</p>
+              <p>Population: {{ homeworld.population }}</p>
+            </div>
           </div>
         </div>
       </transition>
@@ -91,6 +142,24 @@
 
 @import url('https://fonts.googleapis.com/css?family=Share+Tech+Mono');
 
+#logo{
+  margin-bottom: 10px;
+}
+
+.btn-pilot{
+  margin-top: 10px;
+}
+
+.pilots{
+  text-align: center;
+}
+.img-pilots{
+  margin-left: -96px !important;
+}
+.box-pilots{
+  margin: auto !important;
+}
+
 .results-item{
 	padding: 10px;
 }
@@ -103,7 +172,7 @@ hr {
   border-top: 1px solid rgba(255,255,255,0.4);
 }
 
-.starship-box-selected{
+.box-selected{
   margin-left: 20px;
   overflow: hidden;
   width: 400px;
@@ -115,7 +184,7 @@ hr {
   margin-top: 20px;
 }
 
-.starship-img-selected{
+.img-selected{
   position: relative;
   max-height: 400px;
   top: 50%;
@@ -156,7 +225,7 @@ hr {
   overflow-x: hidden;
 }
 
-.starship-box{
+.box{
   margin-left: 20px;
   overflow: hidden;
   width: 100px;
@@ -168,7 +237,7 @@ hr {
   border: 2px solid rgba(255,255,255,0.5);
 }
 
-.starship-img{
+.img{
   position: relative;
   max-height: 100px;
   top: 50%;
@@ -178,7 +247,7 @@ hr {
   transition: 0.2s ease;
 }
 
-.starship-img:hover{
+.img:hover{
   max-height: 150px;
   margin-left: -70px;
   margin-top: -70px;

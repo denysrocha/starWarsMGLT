@@ -6,7 +6,9 @@ export default {
       starships: [],
       results: [],
       pilots: [],
-      starship_selected: null
+      starship_selected: null,
+      pilot_selected: null,
+      homeworld: null
     }
   },
   methods: {
@@ -26,31 +28,24 @@ export default {
       }
     },
     selectStarship (starship) {
-        for (var i = 0; i < starship.pilots.length; i++) {
-          // this.getPilots(starship.pilots[i])
-          for (var j = 0; j < this.pilots.length; j++) {
-            if(this.pilots[j].url == starship.pilots[i]){
-              this.pilots[j].img = require('../../assets/img/' + this.pilots[i].name + '.png')
-              starship.pilots_data = this.pilots[j]
-            } 
-          }
-        }        
-        this.starship_selected = starship
-        
-    },
-    getPilots (url) {
-      if (!url) {
-        return
+      this.pilots = []
+
+      this.starship_selected = starship
+
+      for (var i = 0; i < starship.pilots.length; i++) {
+        this.$http.get(starship.pilots[i]).then((response) => {
+          var obj = response.data
+          obj.img = require('../../assets/img/' + response.data.name + '.png')
+          this.pilots.push(obj)
+        }).catch(e => {
+          console.log(JSON.stringify(e.message))
+        })
       }
-      this.$http.get(url).then((response) => {
-        this.pilots.push(response.data)
-      }).catch(e => {
-        console.log(JSON.stringify(e.message))
-      })
     },
-    getAllPilots () {
-      this.$http.get('https://swapi.co/api/people/').then((response) => {
-        this.pilots = response.data.results
+    selectHomeWorld (pilot) {
+      this.$http.get(pilot.homeworld).then((response) => {
+        this.homeworld = response.data
+        this.homeworld.img = require('../../assets/img/' + response.data.name + '.png')
       }).catch(e => {
         console.log(JSON.stringify(e.message))
       })
@@ -78,6 +73,5 @@ export default {
   mounted() {
     //do something after mounting vue instance
     this.getStarships()
-    this.getAllPilots()
   }
 }
