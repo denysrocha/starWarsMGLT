@@ -260,7 +260,7 @@ hr {
 
 .container{
 	max-width: 1000px;
-  	min-height: 700px;
+  min-height: 600px;
 }
 
 .well{

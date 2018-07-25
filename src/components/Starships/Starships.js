@@ -13,11 +13,15 @@ export default {
   },
   methods: {
     getStarships () {
-      this.$http.get('https://swapi.co/api/starships/').then((response) => {
-  			this.starships = response.data.results
-  		}).catch(e => {
-  			console.log(JSON.stringify(e.message))
-  		})
+      for (var i = 1; i < 4; i++) {
+        this.$http.get('https://swapi.co/api/starships/?page=' + i).then((response) => {
+          response.data.results.forEach((item) => {
+						this.starships.push(item)
+					})
+    		}).catch(e => {
+    			console.log(JSON.stringify(e.message))
+    		})
+      }
     },
     calculateStops () {
       this.results = []
@@ -46,6 +50,7 @@ export default {
       this.$http.get(pilot.homeworld).then((response) => {
         this.homeworld = response.data
         this.homeworld.img = require('../../assets/img/' + response.data.name + '.png')
+        console.log(response.data.name)
       }).catch(e => {
         console.log(JSON.stringify(e.message))
       })
