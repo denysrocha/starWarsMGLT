@@ -1,6 +1,6 @@
 # starWarsMGLT instructions
 
-# download and install the latest version of Node.js software
+download and install the latest version of Node.js software
 https://nodejs.org/en/download/
 
 enter the terminal of your operating system
