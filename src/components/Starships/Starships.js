@@ -12,16 +12,17 @@ export default {
     }
   },
   methods: {
-    getStarships () {
-      for (var i = 1; i < 4; i++) {
-        this.$http.get('https://swapi.co/api/starships/?page=' + i).then((response) => {
-          response.data.results.forEach((item) => {
-						this.starships.push(item)
-					})
-    		}).catch(e => {
-    			console.log(JSON.stringify(e.message))
-    		})
-      }
+    getStarships (url = 'https://swapi.co/api/starships/?page=1') {
+      this.$http.get(url).then((response) => {
+        response.data.results.forEach((item) => {
+          this.starships.push(item)
+        })
+        if (response.data.next) {
+          this.getStarships(response.data.next)
+        }
+      }).catch(e => {
+        console.log(JSON.stringify(e.message))
+      })
     },
     calculateStops () {
       this.results = []
@@ -56,6 +57,9 @@ export default {
       })
     },
     returnStops (distance, mglt, time) {
+      if (mglt == 'unknown' || time == 'unknown') {
+        return 'Unknown'
+      }
       return Math.round(distance / (mglt * this.returnHours(time)))
     },
     returnHours (string) {

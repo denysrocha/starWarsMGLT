@@ -19,7 +19,6 @@
     <div class="container results">
       <transition name="component-fade" mode="out-in">
         <div class="row" v-if="starship_selected == null && pilot_selected == null && homeworld == null">
-          <!-- <transition-group name="list" tag="div"> -->
             <div class="col-md-6 results-item" v-for="r in results" v-bind:key="r.name">
               <div class="row">
                 <div class="col-md-4">
@@ -29,12 +28,11 @@
                 </div>
                 <div class="col-md-7">
                   <label for="starship-img">Starship {{ r.name }}</label>
-                  <p>Stops {{ r.stops }}</p>
+                  <p>Stops: {{ r.stops }}</p>
                   <button class="btn btn-info btn-sm" v-on:click="selectStarship(r)">+ Details</button>
                 </div>
               </div>
         	</div>
-          <!-- </transition-group> -->
     	  </div>
       </transition>
       <transition name="component-fade" mode="out-in">
